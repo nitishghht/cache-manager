@@ -84,23 +84,23 @@ const CacheSystem = () => {
   };
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl font-bold mb-4">Dynamic Multilevel Cache System</h1>
+    <div className="p-4 sm:p-6 lg:p-8 bg-gray-100 min-h-screen">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4">Dynamic Multilevel Cache System</h1>
 
-      <div className="mb-4">
+      <div className="mb-4 flex flex-col sm:flex-row">
         <input
           type="text"
           value={inputKey}
           onChange={(e) => setInputKey(e.target.value)}
           placeholder="Enter key"
-          className="p-2 border rounded mr-2"
+          className="p-2 border rounded mb-2 sm:mb-0 sm:mr-2 flex-1"
         />
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Enter value"
-          className="p-2 border rounded mr-2"
+          className="p-2 border rounded mb-2 sm:mb-0 sm:mr-2 flex-1"
         />
         <button
           onClick={() => put(inputKey, inputValue)}
@@ -113,22 +113,22 @@ const CacheSystem = () => {
       <div className="mb-4">
         <button
           onClick={() => addCacheLevel(3, 'LRU')}
-          className="bg-green-500 text-white px-4 py-2 rounded"
+          className="bg-green-500 text-white px-4 py-2 rounded mr-2"
         >
           Add LRU Cache Level
         </button>
         <button
           onClick={() => addCacheLevel(3, 'LFU')}
-          className="bg-green-500 text-white px-4 py-2 ml-2 rounded"
+          className="bg-green-500 text-white px-4 py-2 rounded"
         >
           Add LFU Cache Level
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {cacheLevels.map((level, index) => (
-          <div key={index} className="border p-4 rounded shadow">
-            <h2 className="font-bold mb-2">Cache Level {index + 1} ({level.evictionPolicy})</h2>
+          <div key={index} className="border p-4 rounded shadow bg-white">
+            <h2 className="font-bold mb-2 text-lg">Cache Level {index + 1} ({level.evictionPolicy})</h2>
             <ul>
               {Object.entries(level.cache).map(([key, value]) => (
                 <li key={key}>
@@ -151,7 +151,7 @@ const CacheSystem = () => {
           type="text"
           onChange={(e) => setInputKey(e.target.value)}
           placeholder="Enter key to fetch"
-          className="p-2 border rounded mr-2"
+          className="p-2 border rounded mr-2 flex-1"
         />
         <button
           onClick={() => {
