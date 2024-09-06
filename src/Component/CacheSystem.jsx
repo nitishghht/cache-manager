@@ -1,39 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const CacheSystem = () => {
   const [cacheLevels, setCacheLevels] = useState([]);
   const [inputKey, setInputKey] = useState('');
   const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    console.log('Cache Levels updated:', cacheLevels);
-  }, [cacheLevels]);
-
-  // Add a new cache level with the specified size and eviction policy (LRU or LFU)
   const addCacheLevel = (size, evictionPolicy) => {
     setCacheLevels([...cacheLevels, { size, evictionPolicy, cache: {}, accessCount: {}, accessOrder: [] }]);
   };
 
-  // Get data from the cache corresponding to the key
   const get = (key) => {
     for (let i = 0; i < cacheLevels.length; i++) {
       const level = cacheLevels[i];
       if (level.cache[key]) {
-        updateAccessData(key, i, level.evictionPolicy); // Update access information for LRU or LFU
-        console.log(`Data found at level ${i + 1}: ${level.cache[key]}`);
+        updateAccessData(key, i, level.evictionPolicy);
         return level.cache[key];
       }
     }
-    console.log('Data not found');
     return null;
   };
 
-  // Insert a key-value pair into the L1 cache
   const put = (key, value) => {
     if (cacheLevels.length === 0) return;
 
     const L1 = cacheLevels[0];
-
+    
     if (Object.keys(L1.cache).length >= L1.size) {
       evict(L1, L1.evictionPolicy);
     }
@@ -45,7 +36,6 @@ const CacheSystem = () => {
     setCacheLevels([...cacheLevels]);
   };
 
-  // Eviction based on policy
   const evict = (level, evictionPolicy) => {
     let keyToEvict = null;
 
@@ -64,11 +54,9 @@ const CacheSystem = () => {
     if (keyToEvict) {
       delete level.cache[keyToEvict];
       delete level.accessCount[keyToEvict];
-      console.log(`Evicted key: ${keyToEvict}`);
     }
   };
 
-  // Update access data for LRU or LFU
   const updateAccessData = (key, levelIndex, evictionPolicy) => {
     const level = cacheLevels[levelIndex];
 
@@ -82,14 +70,12 @@ const CacheSystem = () => {
     setCacheLevels([...cacheLevels]);
   };
 
-  // Remove cache level by index
   const removeCacheLevel = (index) => {
     const newLevels = [...cacheLevels];
     newLevels.splice(index, 1);
     setCacheLevels(newLevels);
   };
 
-  // Display current state of the cache
   const displayCache = () => {
     console.log('Cache Levels:');
     cacheLevels.forEach((level, index) => {
